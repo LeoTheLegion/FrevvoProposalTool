@@ -1,14 +1,17 @@
 const $ = require('jquery');
 const {app, ipcMain} = require('electron');
 
+
 function getXMLResponseFromString(xmlstring){
 	console.log( "Processing XML!" );
 	
-	var parser = new DOMParser();
-	var xmlDoc = parser.parseFromString(xmlstring,"text/xml");
+	var parse = require('xml-parser');
+	var inspect = require('util').inspect;
+	
+	var xmlDoc = parse(xmlstring);
 	
 	
-	return xmlstring;
+	return inspect(xmlDoc, { colors: true, depth: Infinity });
 }
 
 ipcMain.on('sendXML', function (event, xml) {
