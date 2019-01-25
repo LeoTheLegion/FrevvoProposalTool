@@ -7,8 +7,9 @@ function sendXMLtoICPMain(xml){
 	ipcRenderer.send('sendXML', xml);
 }
 
-function ProcessXMLresponse(xml){
-	console.log( "I got the XML Response: \n"+ xml );
+function ProcessXMLresponse(xmlResponse){
+	console.log( "I got the XML Response: \n"+ xmlResponse );
+	$("#result").val(xmlResponse);
 }
 
 document.getElementById('main').onsubmit = e => {
