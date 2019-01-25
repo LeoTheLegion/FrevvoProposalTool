@@ -1,0 +1,31 @@
+{
+  "name": "frevvostatustool",
+  "version": "1.0.0",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron .",
+    "pack": "build --dir",
+    "dist": "build",
+    "clean": "clean-deps"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mmena2017/CEL_Wrike_Helper.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mmena2017/CEL_Wrike_Helper/issues"
+  },
+  "homepage": "https://github.com/mmena2017/CEL_Wrike_Helper#readme",
+  "devDependencies": {
+    "electron": "^4.0.1",
+    "electron-builder": "^20.28.3"
+  },
+  "dependencies": {
+    "jquery": "^3.3.1",
+    "vue": "^2.5.22"
+  },
+  "description": ""
+}
