@@ -9,9 +9,11 @@ function getXMLResponseFromString(xmlstring){
 	var inspect = require('util').inspect;
 	
 	var xmlDoc = parse(xmlstring);
+	//console.log( xmlDoc);
+	console.log( xmlDoc.root.children[2].children)
 	
-	
-	return inspect(xmlDoc, { colors: true, depth: Infinity });
+	return xmlDoc;
+	//return inspect(xmlDoc, { colors: true, depth: Infinity });
 }
 
 ipcMain.on('sendXML', function (event, xml) {

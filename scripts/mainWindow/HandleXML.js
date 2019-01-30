@@ -8,8 +8,18 @@ function sendXMLtoICPMain(xml){
 }
 
 function ProcessXMLresponse(xmlResponse){
-	console.log( "I got the XML Response: \n"+ xmlResponse );
-	$("#result").val(xmlResponse);
+	
+	var RequestorInformation = xmlResponse.root.children[2];
+	
+	var information = RequestorInformation.name + "\n";
+	
+	for (let i = 0; i < RequestorInformation.children.length; i++) {
+		var child = RequestorInformation.children[i];
+		information += child.name + " : " + child.content + "\n";
+	};
+	
+	console.log( "I got the XML Response: \n"+ information );
+	$("#result").val(information);
 }
 
 document.getElementById('main').onsubmit = e => {
