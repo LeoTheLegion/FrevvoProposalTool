@@ -9,8 +9,16 @@ function getXMLResponseFromString(xmlstring){
 	var inspect = require('util').inspect;
 	
 	var xmlDoc = parse(xmlstring);
+	
+	try{
+		console.log( xmlDoc.root.children[2].children)
+	}
+	catch(e){
+		return null;
+	}
+	
 	//console.log( xmlDoc);
-	console.log( xmlDoc.root.children[2].children)
+	
 	
 	return xmlDoc;
 	//return inspect(xmlDoc, { colors: true, depth: Infinity });

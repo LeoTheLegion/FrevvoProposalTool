@@ -1,7 +1,15 @@
-
-	iframe{
-	display: block;       /* iframes are inline by default */
-    border: none;         /* Reset default border */
-    height: 99vh;        /* Viewport-relative units */
-    width: 100%;
-	}
+#result{
+	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+	outline: 0;
+	box-shadow: none;
+	border: none;
+	border-bottom: 1px solid #ced4da;
+	border-radius: 0;
+	box-sizing: content-box;
+	background-color: transparent;
+	overflow-y: hidden;
+	padding: 1.5rem 0;
+	resize: none;
+	width: 300px;
+	height: 150px;
+}

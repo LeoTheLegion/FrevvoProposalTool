@@ -8,7 +8,11 @@ function sendXMLtoICPMain(xml){
 }
 
 function ProcessXMLresponse(xmlResponse){
-	
+	if(xmlResponse == null){
+		alert("Bad XML");
+		return;
+	}
+		
 	var RequestorInformation = xmlResponse.root.children[2];
 	
 	var information = RequestorInformation.name + "\n";
@@ -18,7 +22,9 @@ function ProcessXMLresponse(xmlResponse){
 		information += child.name + " : " + child.content + "\n";
 	};
 	
-	console.log( "I got the XML Response: \n"+ information );
+	var inspect = require('util').inspect;
+	
+	console.log( "I got the XML Response: \n"+ inspect(RequestorInformation, { colors: true, depth: Infinity }) );
 	$("#result").val(information);
 }
 
