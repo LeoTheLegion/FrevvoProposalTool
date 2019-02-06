@@ -1,11 +1,33 @@
 const $ = require('jquery');
 const {ipcRenderer} = require('electron');
-const jsPDF = require('jspdf');
-require('jspdf-autotable');
+
 
 function sendXMLtoICPMain(xml){
 	console.log("Sending XML to Process : " + xml);
 	ipcRenderer.send('sendXML', xml);
+}
+
+function getChildrenFromSource(source_arr){
+	var arr = [];	
+	
+	var source = source_arr;
+		
+	for (let i = 0; i < source.children.length; i++) {
+		var child = source.children[i];
+		
+		arr.push([child.name,child.content]);
+	};
+	
+	return arr;
+}
+
+function getValuebyKey(arr,key){
+	for (let i = 0; i < arr.length; i++) {
+		if(arr[i][0] == key){
+			return arr[i][1];
+		}
+	};
+	return null;
 }
 
 function ProcessXMLresponse(xmlResponse){
@@ -15,113 +37,37 @@ function ProcessXMLresponse(xmlResponse){
 	}
 
 	var information = "";
-	var lastname,courseid = "";
-	var RequestorInformation_arr	= [];
-	var	ChairInformation_arr	= [];
-	var	DeanInformation_arr	= [];
-	var	CourseInformation_arr	= [];
 	
-	//todo : Function this
-	var RequestorInformation = xmlResponse.root.children[2];
-	information += RequestorInformation.name + "\n";
+	var RequestorInformation_arr = getChildrenFromSource(xmlResponse.root.children[2]);
+	var	ChairInformation_arr = getChildrenFromSource(xmlResponse.root.children[3]);
+	var	DeanInformation_arr	= getChildrenFromSource(xmlResponse.root.children[4]);
+	var	CourseInformation_arr = getChildrenFromSource(xmlResponse.root.children[5]);
 	
-	for (let i = 0; i < RequestorInformation.children.length; i++) {
-		var child = RequestorInformation.children[i];
-		
-		if(child.name == "vlastname")
-			lastname = child.content;
-		
-		information += child.name + " : " + child.content + "\n";
-		RequestorInformation_arr.push([child.name,child.content]);
-	};
-	
-	//todo : Function this
-	var ChairInformation = xmlResponse.root.children[3];
-	information += "\n" + ChairInformation.name + "\n";
-	
-	for (let i = 0; i < ChairInformation.children.length; i++) {
-		var child = ChairInformation.children[i];
-		
-		if(child.name == "vlastname")
-			lastname = child.content;
-		
-		information += child.name + " : " + child.content + "\n";
-		ChairInformation_arr.push([child.name,child.content]);
-	};
-	
-	//todo : Function this
-	var DeanInformation = xmlResponse.root.children[4];
-	information += "\n" +DeanInformation.name + "\n";
-	
-	for (let i = 0; i < DeanInformation.children.length; i++) {
-		var child = DeanInformation.children[i];
-		
-		if(child.name == "vlastname")
-			lastname = child.content;
-		
-		information += child.name + " : " + child.content + "\n";
-		DeanInformation_arr.push([child.name,child.content]);
-	};
-	
-	//todo : Function this
-	var CourseInformation = xmlResponse.root.children[5];
-	information += "\n" +CourseInformation.name + "\n";
-	
-	for (let i = 0; i < CourseInformation.children.length; i++) {
-		var child = CourseInformation.children[i];
-		
-		if(child.name == "courseid")
-			courseid = child.content;
-		
-		information += child.name + " : " + child.content + "\n";
-		CourseInformation_arr.push([child.name,child.content]);
-	};
+	var lastname = getValuebyKey(RequestorInformation_arr,"vlastname");
+	var courseid = getValuebyKey(CourseInformation_arr,"courseid");
 	
 	var inspect = require('util').inspect;
 	
 	console.log( "I got the XML Response: \n"+ inspect(xmlResponse, { colors: true, depth: Infinity }) );
-	$("#result").val(information);
+	//$("#result").val(information);
 	
-	BuildPDFTable(RequestorInformation_arr,
+	var handlePDF = require("./HandlePDF");
+	
+	handlePDF.BuildPDFTable(RequestorInformation_arr,
 		ChairInformation_arr,
 		DeanInformation_arr,
 		CourseInformation_arr, courseid, lastname);
-}
-
-
-function BuildPDFTable(RequestorInformation_arr,
-		ChairInformation_arr,
-		DeanInformation_arr,
-		CourseInformation_arr, courseid , lastname){
-			
-	var PDF = new jsPDF('p', 'pt');
-	
-	PDF.autoTable(["RequestorInformation", ""], RequestorInformation_arr,{
-			margin: {top: 20}
-		});
-	PDF.autoTable(["ChairInformation", ""], ChairInformation_arr,{
-			margin: {top: 220}
-		});
-	PDF.autoTable(["DeanInformation", ""], DeanInformation_arr,{
-			margin: {top: 320}
-		});
-	PDF.autoTable(["CourseInformation", ""], CourseInformation_arr,{
-			margin: {top: 470}
-		});
-		
-	PDF.save(courseid+ '_' + lastname + '_proposal.pdf');
-}
-
-function BuildPDF(information, courseid , lastname){
-	var PDF = new jsPDF('p', 'pt');
-	PDF.text(information, 50, 50);
-	PDF.save(courseid+ '_' + lastname + '_proposal.pdf');
 }
 
 document.getElementById('main').onsubmit = e => {
 	e.preventDefault();
 	var xml = $("#InputXML").val();
 	sendXMLtoICPMain(xml);
+};
+
+document.getElementById('clear').onclick = e => {
+	e.preventDefault();
+	$("#InputXML").val("");
 };
 
 ipcRenderer.on('getXMLResponse', function (event, response) {
