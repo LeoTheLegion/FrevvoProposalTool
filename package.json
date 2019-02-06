@@ -1,6 +1,6 @@
 {
   "name": "frevvostatustool",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -13,7 +13,7 @@
     "type": "git",
     "url": "git+https://github.com/mmena2017/CEL_Wrike_Helper.git"
   },
-  "author": "",
+  "author": "Michael Mena",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/mmena2017/CEL_Wrike_Helper/issues"
