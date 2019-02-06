@@ -30,18 +30,30 @@ function getValuebyKey(arr,key){
 	return null;
 }
 
+function FindSource(xmlResponse,name){
+	var children = xmlResponse.root.children;
+	
+	for (let i = 0; i < children.length; i++) {
+		if(children[i].name == name){
+			return children[i];
+		}
+	};
+	
+	return null;
+}
+
 function ProcessXMLresponse(xmlResponse){
 	if(xmlResponse == null){
-		alert("Bad XML");
+		alert("Bad XML. Use Clear and repaste XML");
 		return;
 	}
 
 	var information = "";
 	
-	var RequestorInformation_arr = getChildrenFromSource(xmlResponse.root.children[2]);
-	var	ChairInformation_arr = getChildrenFromSource(xmlResponse.root.children[3]);
-	var	DeanInformation_arr	= getChildrenFromSource(xmlResponse.root.children[4]);
-	var	CourseInformation_arr = getChildrenFromSource(xmlResponse.root.children[5]);
+	var RequestorInformation_arr = getChildrenFromSource(FindSource(xmlResponse,"RequestorInformation"));
+	var	ChairInformation_arr = getChildrenFromSource(FindSource(xmlResponse,"ChairInformation"));
+	var	DeanInformation_arr	= getChildrenFromSource(FindSource(xmlResponse,"DeanInformation"));
+	var	CourseInformation_arr = getChildrenFromSource(FindSource(xmlResponse,"CourseInformation"));
 	
 	var lastname = getValuebyKey(RequestorInformation_arr,"vlastname");
 	var courseid = getValuebyKey(CourseInformation_arr,"courseid");

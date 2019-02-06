@@ -11,7 +11,7 @@ function getXMLResponseFromString(xmlstring){
 	var xmlDoc = parse(xmlstring);
 	
 	try{
-		console.log( xmlDoc.root.children)
+		console.log( xmlDoc.root.children)// force error
 	}
 	catch(e){
 		return null;
