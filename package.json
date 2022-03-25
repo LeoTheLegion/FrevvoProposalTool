@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/mmena2017/CEL_Wrike_Helper#readme",
   "devDependencies": {
-    "electron": "^4.0.1",
+    "electron": "^13.6.6",
     "electron-builder": "^20.28.3"
   },
   "dependencies": {
